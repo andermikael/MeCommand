@@ -67,5 +67,13 @@
             Command="{Binding Button3Command}"
             CommandParameter="{Binding Path=Text, ElementName=NameTextbox1}"
             Content="Button3" />
+        <Button
+            x:Name="Button4"
+            Grid.Row="3"
+            Grid.Column="4"
+            Margin="0,5,5,0"
+            Command="{Binding AsyncButton4Command}"
+            CommandParameter="{Binding Path=Text, ElementName=NameTextbox1}"
+            Content="Button4" />
     </Grid>
 </Window>

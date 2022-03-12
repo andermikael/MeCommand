@@ -17,6 +17,8 @@ namespace MeCommand
             Button1Command = new RelayCommand(DoButton1Command);
             Button2Command = new RelayCommand(DoButton2Command, CanButton2Execute);
             Button3Command = new RelayCommand<string>(DoButton3Command, CanButton3Execute);
+
+            AsyncButton4Command = new AsyncRelayCommand<string>(DoAsyncButton4Command, CanAsyncButton4Execute);
         }
 
         private string? _Name1;
@@ -34,6 +36,7 @@ namespace MeCommand
                 // The function CanButton2Execute will be executed and the result will effect the button IsEnable
                 Button2Command.NotifyCanExecuteChanged();
                 Button3Command.NotifyCanExecuteChanged();
+                AsyncButton4Command.NotifyCanExecuteChanged();
             }
         }
 
@@ -112,5 +115,31 @@ namespace MeCommand
         }
 
         #endregion Commands
+
+        #region Async Commands
+
+        // AsyncButton4Command
+        public IAsyncRelayCommand AsyncButton4Command { get; }
+
+        private bool CanAsyncButton4Execute(string? obj)
+        {
+            if (!string.IsNullOrWhiteSpace(Name1))
+                return true;
+            else
+                return false;
+        }
+
+        private async Task<string> DoAsyncButton4Command(string? name)
+        {
+            Task<string> task;
+            if (string.IsNullOrEmpty(name))
+                return await Task<string>.FromResult(string.Empty);
+            await Task.Delay(5000);
+            task = Task.Run(() => Name2 = name);
+            await task;
+            return task.Result;
+        }
+
+        #endregion Async Commands
     }
 }
